@@ -1,0 +1,29 @@
+{
+  "a": {
+    "type": "string",
+    "format": "0: 5"
+  },
+  "b": {
+    "type": "number",
+    "required": true
+  },
+  "c": {
+    "x": {
+      "type": "date",
+      "format": "dd-MM-yy"
+    },
+    "y": {
+      "type": "email"
+    },
+    "f": {
+      "g": {
+        "type": "date",
+        "format": "dd-MM-yyyy"
+      }
+    }
+  },
+  "d": {
+    "type": "number",
+    "format": "2: 2"
+  }
+}
