@@ -1,3 +1,4 @@
+'use strict'
 describe('Validator', function () {
   let validator = require('../validator');
 

@@ -1,4 +1,6 @@
+'use strict';
 describe("Validator recursive", function() {
+
     let validator = require('../validator');
     validator.setRules({
         a: { type: 'string', format: '0:5' },

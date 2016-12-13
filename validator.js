@@ -3,20 +3,21 @@
 let _ = require('underscore'),
     fs = require('fs'),
     ucfirst = require('ucfirst'),
-    validators = {},
-    RuleChecker,
-    Validator;
+    validators = {};
 
-Validator = new function () {
-    /**
-     * Errors holder
-     */
-    this.errors;
+class Validator {
+    constructor() {
+        /**
+         * Errors holder
+         */
+        this.errors;
 
-    /**
-     * Rules holder
-     */
-    this.rules = {};
+        /**
+         * Rules holder
+         */
+        this.rules = {};
+    }
+
 
     /**
      * Validate if rules are correct
@@ -24,7 +25,7 @@ Validator = new function () {
      * @param {Object} rules to check if data is matched to
      * @return {Validator} Validator instance
      */
-    this.validate = (data, rules) => {
+    validate(data, rules) {
         let ruleValidator;
         this.errors = [];
         let gen = this.getGenerator(rules, data);
@@ -35,13 +36,13 @@ Validator = new function () {
             }
         }
         return this;
-    };
+    }
 
     /**
-     * Recursively goes through the tree
+     * Recursively goes through the tree of rules
      * @return {Generator} 
      */
-    this.getGenerator = function* (rules, data) {
+    *getGenerator(rules, data) {
         let value = null;
         for (let field in rules) {
             value = null;
@@ -60,7 +61,7 @@ Validator = new function () {
     /**
      * Rules setter
      */
-    this.setRules = (rules) => {
+    setRules(rules) {
         this.rules = rules;
     }
 
@@ -69,7 +70,7 @@ Validator = new function () {
      * @param object optional data to be validated
      * @return boolean
      */
-    this.isValid = (data) => {
+    isValid(data) {
         if (data) {
             this.validate(data, this.rules);
         }
@@ -79,41 +80,45 @@ Validator = new function () {
      * Get validation errors
      * @return array
      */
-    this.getErrors = () => {
+    getErrors() {
         return this.errors;
     }
 
-    this.readRulesFromFile = (fileName) => {
+    readRulesFromFile(fileName) {
         fileName = fileName || 'rules.json';
-        this.rules = JSON.parse(fs.readFileSync(fileName, 'utf8'));
+        this.setRules(JSON.parse(fs.readFileSync(fileName, 'utf8')));
     }
 };
 
 /**
  * Check if data is matched to rule
  */
-RuleChecker = function (rule) {
+class RuleChecker {
 
-    /**
-     * Error holder
-     */
-    this.error = '';
+    constructor(rule) {
+        /**
+         * Error holder
+         */
+        this.error = '';
 
-    /**
-     * Format holder 
-     */
-    this.format = rule.format;
+        /**
+         * Format holder 
+         */
+        this.format = rule.format;
 
-    if (rule.type == 'email') {
-        this.format = 'email'
+        if (rule.type == 'email') {
+            this.format = 'email'
+        }
+        this.rule = rule;
     }
+
 
     /**
      * Check if data is matched to rule
      */
-    this.isValid = (value) => {
+    isValid(value) {
         let valid = true;
-        if (rule.required) {
+        if (this.rule.required) {
             valid = validators.required(value);
             this.error = `Value is required`;
         } else if (value === undefined || value === null) {
@@ -121,7 +126,7 @@ RuleChecker = function (rule) {
             return true;
         }
         if (valid && this.format) {
-            valid = validators['checkFormat' + ucfirst(rule.type)](value, this.format);
+            valid = validators['checkFormat' + ucfirst(this.rule.type)](value, this.format);
             this.error = `Value: ${value} does not match format ${this.format}`
         }
         return valid;
@@ -169,4 +174,4 @@ validators.required = (value) => {
     return !_.isNull(value) && !_.isUndefined(value) && value != '';
 }
 
-module.exports = Validator;
+module.exports = new Validator();
