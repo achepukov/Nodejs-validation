@@ -1,12 +1,12 @@
 {
   "name": "validator-rules",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Validator for custom rules",
   "main": "validator.js",
   "scripts": {
     "test": "jasmine"
   },
-  "author": "",
+  "author": "Alexander Chepukov",
   "license": "ISC",
   "dependencies": {
     "underscore": "^1.8.3"
