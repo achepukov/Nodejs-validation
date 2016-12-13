@@ -13,6 +13,7 @@ let errors = validator.getErrors();
 ```
 
 #List of all available rules
+```
 {
   type: 'string' || 'number' || 'date' || 'email',
   required: true || false,
@@ -20,6 +21,9 @@ let errors = validator.getErrors();
   format: 'digitsBeforeComma:digitsAfterComma' // for numbers
   format: 'minLen:maxLen' // for strings
 }
+```
+#version
+Works fine with node version 6.9.x. May have issues with earlier releases.
 
 #FAQ
 
