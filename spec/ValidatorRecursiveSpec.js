@@ -40,5 +40,7 @@ describe("Validator recursive", function() {
 
     it('should check recursively without errors if some data has no rules', function() {
         expect(validator.isValid({b: "3530"})).toBeTruthy();
+        expect(validator.isValid({b: "3530", c: {f: {g: "122"}}})).toBeFalsy();
+        expect(validator.getErrors().length).toEqual(1);
     })
 });
