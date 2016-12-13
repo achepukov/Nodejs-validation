@@ -28,4 +28,4 @@ Works fine with node version 6.9.x. May have issues with earlier releases.
 #FAQ
 
 Q: May I add my own validation rules?
-A: Not now, maybe in future version
+A: No, but you can create pull request in https://github.com/achepukov/Nodejs-validation
