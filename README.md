@@ -28,5 +28,4 @@ Works fine with node version 6.9.x. May have issues with earlier releases.
 #FAQ
 
 Q: May I add my own validation rules?  
-A: Yep, have a look here: https://github.com/achepukov/Nodejs-validation/blob/master/spec/ValidatorCustomSpec.js#L5
-note, don't forget to define: {type: 'your-awesome-custom-format', **format: true**}
+A: Yep, have a look [here](https://github.com/achepukov/Nodejs-validation/blob/master/spec/ValidatorCustomSpec.js#L5), don't forget to define: {type: 'your-awesome-custom-format', **format: true**}
