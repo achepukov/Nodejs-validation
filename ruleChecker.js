@@ -30,14 +30,14 @@ class RuleChecker {
     isValid(value) {
         let valid = true;
         if (this.rule.required) {
-            valid = rulesCollection.get('check-required')(value);
+            valid = rulesCollection.get('required')(value);
             this.error = `Value is required`;
         } else if (value === undefined || value === null) {
             //value not exists and is not required, ok
             return true;
         }
         if (valid && this.format) {
-            valid = rulesCollection.get('check-' + this.rule.type)(value, this.format);
+            valid = rulesCollection.get(this.rule.type)(value, this.format);
             this.error = `Value: ${value} does not match format ${this.format}`
         }
         return valid;

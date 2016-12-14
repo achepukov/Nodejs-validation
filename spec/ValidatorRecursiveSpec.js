@@ -2,35 +2,37 @@
 describe("Validator recursive", function () {
 
   let validator = require('../validator');
-  validator.setRules({
-    a: {
-      type: 'string',
-      format: '0:5'
-    },
-    b: {
-      type: 'number',
-      required: true
-    },
-    c: {
-      x: {
-        type: 'date',
-        format: 'dd-MM-yy'
+  beforeAll(() => {
+    validator.setRules({
+      a: {
+        type: 'string',
+        format: '0:5'
       },
-      y: {
-        type: 'email'
+      b: {
+        type: 'number',
+        required: true
       },
-      f: {
-        g: {
+      c: {
+        x: {
           type: 'date',
-          format: 'dd-MM-yyyy'
+          format: 'dd-MM-yy'
+        },
+        y: {
+          type: 'email'
+        },
+        f: {
+          g: {
+            type: 'date',
+            format: 'dd-MM-yyyy'
+          }
         }
+      },
+      d: {
+        type: 'number',
+        format: '2:2'
       }
-    },
-    d: {
-      type: 'number',
-      format: '2:2'
-    }
-  });
+    });
+  })
 
   it('Should be able to check recursively', function () {
     let errors;

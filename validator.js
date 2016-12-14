@@ -91,8 +91,9 @@ class Validator {
         fileName = fileName || 'rules.json';
         this.setRules(JSON.parse(fs.readFileSync(fileName, 'utf8')));
     }
-    getRuleChecker() {
-        return RuleChecker;
+    addCustomRule(name, checker) {
+        let rulesCollection = RuleChecker.getRulesCollection()
+        rulesCollection.add(name, checker);
     }
 };
 

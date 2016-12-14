@@ -28,4 +28,5 @@ Works fine with node version 6.9.x. May have issues with earlier releases.
 #FAQ
 
 Q: May I add my own validation rules?
-A: No, but you can create pull request in https://github.com/achepukov/Nodejs-validation
+A: Yep, have a look here: https://github.com/achepukov/Nodejs-validation/blob/master/spec/ValidatorCustomSpec.js#L5
+note, that you'll have to define {format: true}(!)

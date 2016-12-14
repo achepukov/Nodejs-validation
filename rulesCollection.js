@@ -2,6 +2,7 @@
 let _ = require('underscore'),
     rulesCollection
     ;
+
 rulesCollection = new function() {
     this.rules = {};
 
@@ -25,7 +26,7 @@ module.exports = rulesCollection;
 
 // add default set of rules
 
-rulesCollection.add('check-date', (value, format) => {
+rulesCollection.add('date', (value, format) => {
     let year, month, day, yearFormat, dateRegexp;
     yearFormat = format.split("-").pop();
     dateRegexp = new RegExp(`^[0-9]{2}\-[0-9]{2}-[0-9]{${yearFormat.length}}$`);
@@ -44,24 +45,27 @@ rulesCollection.add('check-date', (value, format) => {
     }
     return day > 0 && day <= monthLength[month - 1];
 });
-rulesCollection.add('check-number', (value, format) => {
+rulesCollection.add('number', (value, format) => {
+    if (value.indexOf(',') == -1) {
+        return false;
+    }
     let requiredAfter, requiredBefore, valueBeforeComma, valueAfterComma;
     [requiredBefore, requiredAfter] = format.split(":");
     [valueBeforeComma, valueAfterComma] = value.split(",");
     return valueBeforeComma.length == requiredBefore
         && valueAfterComma.length == requiredAfter;
 });
-rulesCollection.add('check-string', (value, format) => {
+rulesCollection.add('string', (value, format) => {
     let min, max;
     [min, max] = format.split(":");
     return value.length >= min && value.length <= max;
 });
 
-rulesCollection.add('check-email', (value) => {
+rulesCollection.add('email', (value) => {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(value);
 });
 
-rulesCollection.add('check-required', (value) => {
+rulesCollection.add('required', (value) => {
     return !_.isNull(value) && !_.isUndefined(value) && value != '';
 });
