@@ -27,12 +27,12 @@ class Validator {
      */
     validate(data, rules) {
         let ruleValidator;
-        this.errors = [];
+        this.errors = {};
         let gen = this.getGenerator(rules, data);
         for (let [field, rule, value] of gen) {
             ruleValidator = new RuleChecker(rule);
             if (!ruleValidator.isValid(value)) {
-                this.errors.push(`Error for ${field} - ${ruleValidator.error}`);
+                this.errors[field] = ruleValidator.error;
             }
         }
         return this;
@@ -42,18 +42,21 @@ class Validator {
      * Recursively goes through the tree of rules
      * @return {Generator} 
      */
-    *getGenerator(rules, data) {
+    *getGenerator(rules, data, parent) {
         let value = null;
         for (let field in rules) {
+            let fieldName = field;
+            if (parent) {
+                fieldName = parent + '.' + fieldName;
+            }
             value = null;
             if (_.has(data, field)) {
                 value = data[field];
             }
-
             if (rules[field].type) {
-                yield [field, rules[field], value];
+                yield [fieldName, rules[field], value];
             } else {
-                yield* this.getGenerator(rules[field], value);
+                yield* this.getGenerator(rules[field], value, fieldName);
             }
         }
     }
@@ -74,7 +77,7 @@ class Validator {
         if (data) {
             this.validate(data, this.rules);
         }
-        return this.errors.length == 0;
+        return _.isEmpty(this.errors);
     }
     /**
      * Get validation errors
