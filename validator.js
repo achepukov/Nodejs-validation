@@ -53,7 +53,7 @@ class Validator {
             if (_.has(data, field)) {
                 value = data[field];
             }
-            if (rules[field].type) {
+            if (rules[field].type || rules[field].required) {
                 yield [fieldName, rules[field], value];
             } else {
                 yield* this.getGenerator(rules[field], value, fieldName);
