@@ -1,6 +1,6 @@
 'use strict'
 describe('Validator', function () {
-  let validator = require('../validator');
+  let validator = require('../treeValidator');
 
   describe('should process rules', function () {
     it('Should have isValid() method', function () {

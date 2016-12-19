@@ -1,7 +1,7 @@
 'use strict';
 describe("Validator recursive", function () {
 
-  let validator = require('../validator');
+  let validator = require('../treeValidator');
   beforeAll(() => {
     validator.setRules({
       a: {

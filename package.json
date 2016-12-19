@@ -1,8 +1,8 @@
 {
   "name": "validator-rules",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Validator for custom rules",
-  "main": "validator.js",
+  "main": "treeValidator.js",
   "scripts": {
     "test": "jasmine"
   },

@@ -1,12 +1,15 @@
-let rulesCollection = require('./rulesCollection'),
-    _ = require('underscore')
-;
+let _ = require('underscore');
 
 /**
- * Check if data is matched to rule
+ * Validate if data is matched
  */
-class RuleChecker {
+class ItemValidator {
     constructor(rule) {
+
+        /**
+         * Collection of available rules
+         */
+        this.rulesCollection = require('./rulesCollection');
         /**
          * Error holder
          */
@@ -25,26 +28,26 @@ class RuleChecker {
 
 
     /**
-     * Check if data is matched to rule
+     * Check if concrete value is matched to rule
      */
     isValid(value) {
         let valid = true;
         if (this.rule.required) {
-            valid = rulesCollection.get('required')(value);
+            valid = this.rulesCollection.get('required')(value);
             this.error = `Value is required`;
         } else if (value === undefined || value === null) {
             //value not exists and is not required, ok
             return true;
         }
         if (valid && this.format) {
-            valid = rulesCollection.get(this.rule.type)(value, this.format);
+            valid = this.rulesCollection.get(this.rule.type)(value, this.format);
             this.error = `Value: ${value} does not match format ${this.format}`
         }
         return valid;
     }
-    static getRulesCollection() {
-        return rulesCollection;
+    getRulesCollection() {
+        return this.rulesCollection;
     }
 }
 
-module.exports = RuleChecker;
+module.exports = ItemValidator;

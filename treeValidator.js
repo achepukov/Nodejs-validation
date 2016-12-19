@@ -2,10 +2,10 @@
 
 let _ = require('underscore'),
     fs = require('fs'),
-    RuleChecker = require('./ruleChecker')
+    itemValidator = require('./itemValidator')
     ;
 
-class Validator {
+class TreeValidator {
     constructor() {
         /**
          * Errors holder
@@ -30,7 +30,7 @@ class Validator {
         this.errors = {};
         let gen = this.getGenerator(rules, data);
         for (let [field, rule, value] of gen) {
-            ruleValidator = new RuleChecker(rule);
+            ruleValidator = this.getItemValidator(rule);
             if (!ruleValidator.isValid(value)) {
                 this.errors[field] = ruleValidator.error;
             }
@@ -38,6 +38,9 @@ class Validator {
         return this;
     }
 
+    getItemValidator(rule) {
+        return new itemValidator(rule);
+    }
     /**
      * Recursively goes through the tree of rules
      * @return {Generator} 
@@ -92,10 +95,10 @@ class Validator {
         this.setRules(JSON.parse(fs.readFileSync(fileName, 'utf8')));
     }
     addCustomRule(name, checker) {
-        let rulesCollection = RuleChecker.getRulesCollection()
+        let rulesCollection = this.getItemValidator({}).getRulesCollection()
         rulesCollection.add(name, checker);
     }
 };
 
 
-module.exports = new Validator();
+module.exports = new TreeValidator();

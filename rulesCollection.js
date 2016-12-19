@@ -1,28 +1,29 @@
 'use strict';
-let _ = require('underscore'),
-    rulesCollection
-    ;
+let _ = require('underscore');
+let rulesCollection;
 
-rulesCollection = new function() {
-    this.rules = {};
+/**
+ * Holder of collection of rules
+ */
+rulesCollection =  {
+    rules: new Map(),
 
-    this.get = (name) => {
+    get: function (name) {
         if (this.exists(name)) {
-            return this.rules[name];
+            return this.rules.get(name);
         }
         console.log(`No rule found by name: ${name}`);
-    }
-    this.add = (name, callback) => {
-        if (this.rules[name]) {
+    },
+    add: function (name, callback) {
+        if (this.rules.has(name)) {
             console.log(`Rule already exists in name: ${name}`)
         }
-        this.rules[name] = callback;
-    }
-    this.exists = (name) => {
-        return this.rules.hasOwnProperty(name);
+        this.rules.set(name, callback);
+    },
+    exists: function(name) {
+        return this.rules.has(name);
     }
 };
-module.exports = rulesCollection;
 
 // add default set of rules
 
@@ -69,3 +70,5 @@ rulesCollection.add('email', (value) => {
 rulesCollection.add('required', (value) => {
     return !_.isNull(value) && !_.isUndefined(value) && value != '';
 });
+
+module.exports = rulesCollection;
