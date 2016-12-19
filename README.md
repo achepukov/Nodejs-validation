@@ -3,7 +3,7 @@ Validation rules may be specified in file, or passed as param.
 
 #Usage
 ```
-let validator = require('validator');
+let validator = require('treeValidator');
 validator.readRulesFromFile('rules.json')
 // or
 validator.setRules({some: {required: true;}});
