@@ -1,6 +1,6 @@
 {
   "name": "validator-rules",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Validator for custom rules",
   "main": "treeValidator.js",
   "scripts": {
